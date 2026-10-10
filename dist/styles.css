@@ -1,0 +1,1926 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   1986 — BƯỚC NGOẶT ĐỔI MỚI (CHUYÊN ĐỀ LỊCH SỬ ĐẢNG & TƯ LIỆU QUỐC GIA)
+   Theme: Authentic Vietnamese Historical Archives & Retro Editorial Broadsheet
+   ========================================================================== */
+
+/* --- 1. FONTS & ASSETS --- */
+@font-face {
+  font-family: 'Lora';
+  src: url('assets/lora-regular.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Lora';
+  src: url('assets/lora-italic.ttf') format('truetype');
+  font-style: italic;
+  font-weight: 400 700;
+  font-display: swap;
+}
+
+/* --- 2. HISTORICAL DESIGN TOKENS --- */
+:root {
+  color-scheme: light;
+
+  /* Giấy ngà cổ điển & Bìa hồ sơ lưu trữ */
+  --bg: #f5eedf;
+  --bg-subtle: #ede5d3;
+  --bg-aged: #e6dcbf;
+  --surface: #fdfaf3;
+  --surface-card: #f9f5ea;
+  --surface-dossier: #f3e9d2;
+  --surface-overlay: rgba(245, 238, 223, 0.92);
+
+  /* Mực in than đen hoài cổ */
+  --ink: #1d1815;
+  --ink-soft: #383029;
+  --ink-muted: #6e6253;
+  --ink-faint: #998a76;
+
+  /* Sắc son mài & Dấu triện cờ Đảng */
+  --seal-red: #a82218;
+  --seal-red-dark: #7a150e;
+  --seal-red-bg: #fbf1ef;
+  --seal-red-border: rgba(168, 34, 24, 0.35);
+
+  /* Vàng đồng cổ & Huân chương lịch sử */
+  --bronze: #8c6621;
+  --bronze-dark: #664814;
+  --bronze-bg: #f7f0df;
+  --bronze-border: rgba(140, 102, 33, 0.35);
+
+  /* Xanh rêu / Mực in đồ họa xưa */
+  --green-press: #255d42;
+  --green-press-bg: #eff7f2;
+  --green-press-border: rgba(37, 93, 66, 0.3);
+
+  /* Đường chỉ kẻ diềm báo xưa (Broadsheet Rules) */
+  --line-vintage: #d9ceb8;
+  --line-double: #baa98d;
+  --line-strong: #96856a;
+
+  /* Typography Stack */
+  --serif: 'Lora', 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --sans: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+  /* Layout */
+  --header-height: 74px;
+  --container-max: 1240px;
+  --radius-dossier: 6px;
+  --radius-tag: 4px;
+  --radius-pill: 9999px;
+
+  /* Fluid Motion Curves */
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-smooth: cubic-bezier(0.25, 1, 0.5, 1);
+  --transition-fast: 200ms var(--ease-spring);
+  --transition-normal: 350ms var(--ease-spring);
+}
+
+/* --- 3. BASE & RETRO PAPER TEXTURE --- */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-height) + 24px);
+  background-color: var(--bg);
+  color: var(--ink);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+  background-image: 
+    radial-gradient(ellipse 90% 60% at 50% -10%, rgba(255, 255, 255, 0.6) 0%, transparent 80%),
+    linear-gradient(180deg, #f7f1e4 0%, #f4ecdc 50%, #ede3ce 100%);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 1.125rem;
+  line-height: 1.85;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Texture thớ giấy báo thời bao cấp */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+::selection {
+  background: var(--seal-red-bg);
+  color: var(--seal-red-dark);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* --- 4. TYPOGRAPHY & HISTORICAL ELEMENTS --- */
+h1, h2, h3, h4 {
+  margin: 0;
+  font-weight: 400;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+h1, h2 {
+  font-family: var(--serif);
+  letter-spacing: -0.03em;
+  line-height: 1.18;
+}
+
+h1 em, h2 em, h3 em {
+  font-style: italic;
+  font-weight: 700;
+  color: var(--seal-red);
+}
+
+p {
+  margin: 0 0 24px;
+  color: var(--ink-soft);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--seal-red);
+}
+
+button {
+  cursor: pointer;
+  font: inherit;
+  border: 0;
+  background: none;
+  color: inherit;
+  transition: all var(--transition-fast);
+}
+
+button:focus-visible,
+a:focus-visible,
+summary:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--seal-red);
+  outline-offset: 4px;
+}
+
+.container {
+  width: min(var(--container-max), calc(100% - 64px));
+  margin-inline: auto;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 11px;
+  line-height: 1.4;
+  letter-spacing: 0.22em;
+  font-weight: 700;
+  color: var(--seal-red);
+  margin: 0 0 18px;
+  text-transform: uppercase;
+  font-family: var(--sans);
+}
+
+.eyebrow .red-rule {
+  display: inline-block;
+  width: 24px;
+  height: 2px;
+  background: var(--seal-red);
+}
+
+.skip-link {
+  position: fixed;
+  top: -120px;
+  left: 20px;
+  z-index: 1000;
+  padding: 12px 24px;
+  background: var(--seal-red);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 13px;
+  border-radius: var(--radius-tag);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  transition: top var(--transition-fast);
+}
+
+.skip-link:focus {
+  top: 16px;
+}
+
+/* Con dấu mộc đỏ đặc trưng (Archival Seal Stamps) */
+.archival-stamp {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--seal-red);
+  border: 1.5px solid var(--seal-red);
+  padding: 3px 10px;
+  border-radius: var(--radius-tag);
+  transform: rotate(-3deg);
+  background: rgba(168, 34, 24, 0.04);
+}
+
+.ornament-divider {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 22px 0 26px;
+  color: var(--bronze);
+  font-size: 13px;
+  letter-spacing: 0.3em;
+}
+
+.ornament-divider::before,
+.ornament-divider::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: var(--line-double);
+}
+
+/* --- 5. MASTHEAD & NAVIGATION (PHONG CÁCH BÁO CHÍ LỊCH SỬ) --- */
+.masthead {
+  height: var(--header-height);
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 40px;
+  background: var(--surface-overlay);
+  border-bottom: 2px solid var(--line-double);
+  box-shadow: 0 4px 20px rgba(60, 48, 36, 0.08);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+}
+
+.brand-seal {
+  display: inline-grid;
+  place-items: center;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: #ffffff;
+  background: var(--seal-red);
+  border-radius: var(--radius-tag);
+  padding: 4px 6px;
+  line-height: 1;
+  box-shadow: 0 2px 6px rgba(168, 34, 24, 0.3);
+}
+
+.brand-mark {
+  color: var(--seal-red);
+  font-size: 34px;
+  line-height: 1;
+  letter-spacing: -0.06em;
+  font-family: var(--serif);
+  font-weight: 700;
+  border-right: 1.5px solid var(--line-double);
+  padding-right: 14px;
+}
+
+.brand-text {
+  font-size: 12px;
+  line-height: 1.35;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: var(--ink);
+}
+
+.brand-sub {
+  display: block;
+  color: var(--ink-muted);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+}
+
+.masthead-center {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  color: var(--ink-soft);
+  letter-spacing: 0.18em;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 6px 18px;
+  border: 1px solid var(--line-double);
+  background: var(--surface);
+  border-radius: var(--radius-pill);
+}
+
+.masthead-center::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--seal-red);
+}
+
+.contents-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+  padding: 8px 18px;
+  border: 1.5px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  transition: all var(--transition-fast);
+}
+
+.contents-toggle:hover {
+  background: var(--seal-red);
+  border-color: var(--seal-red);
+  color: #ffffff;
+}
+
+.menu-icon {
+  width: 18px;
+  height: 10px;
+  position: relative;
+  border-top: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+}
+
+/* Dải lụa tiến độ đọc (Bookmark Reading Ribbon) */
+.reading-progress {
+  height: 3px;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: rgba(186, 169, 141, 0.3);
+}
+
+.reading-progress span {
+  display: block;
+  height: 100%;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: left;
+  background: var(--seal-red);
+  transition: transform 100ms linear;
+}
+
+/* Thư mục Mục lục Hồ sơ */
+.contents {
+  position: fixed;
+  right: 36px;
+  top: calc(var(--header-height) + 16px);
+  width: min(480px, calc(100% - 48px));
+  background: var(--surface);
+  border: 2px solid var(--line-strong);
+  border-radius: var(--radius-dossier);
+  z-index: 95;
+  padding: 32px;
+  box-shadow: 0 20px 60px rgba(54, 42, 30, 0.22);
+}
+
+.contents[hidden] {
+  display: none;
+}
+
+.contents-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--line-vintage);
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+}
+
+.archive-badge {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--seal-red);
+  border: 1px solid var(--seal-red);
+  padding: 2px 8px;
+  border-radius: var(--radius-tag);
+}
+
+.contents a {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line-vintage);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  border-radius: var(--radius-tag);
+  transition: all var(--transition-fast);
+}
+
+.contents a:hover,
+.contents a[aria-current="location"] {
+  background: var(--seal-red-bg);
+  color: var(--seal-red);
+  padding-left: 20px;
+}
+
+.contents a .chapter-num {
+  font-size: 11px;
+  color: var(--seal-red);
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.contents a small {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--ink-muted);
+  margin-top: 2px;
+}
+
+/* --- 6. COVER / HERO SECTION --- */
+.cover {
+  position: relative;
+  min-height: max(880px, 100svh);
+  padding-top: var(--header-height);
+  overflow: hidden;
+  border-bottom: 3px double var(--line-double);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.cover-image {
+  position: absolute;
+  inset: 0;
+  background-image: url('assets/port-1999-original.jpg');
+  background-size: cover;
+  background-position: center 38%;
+  filter: sepia(0.35) contrast(1.1) brightness(0.9);
+  opacity: 0.35;
+}
+
+.cover-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(245, 238, 223, 0.7) 0%, rgba(245, 238, 223, 0.94) 80%, var(--bg) 100%);
+}
+
+.cover-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 220px;
+  align-items: center;
+  padding-top: 60px;
+  padding-bottom: 80px;
+  min-height: calc(100svh - var(--header-height) - 80px);
+}
+
+.cover-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.cover-year {
+  font-size: clamp(120px, 16vw, 210px);
+  font-family: var(--serif);
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -0.06em;
+  color: var(--ink);
+  margin: 12px 0 6px;
+  user-select: none;
+}
+
+.year-dot {
+  color: var(--seal-red);
+}
+
+.cover h1 {
+  font-size: clamp(56px, 6.5vw, 92px);
+  line-height: 1.1;
+  color: var(--ink);
+}
+
+.cover-deck {
+  font-size: 21px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  max-width: 660px;
+}
+
+.cover-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+  color: var(--bronze-dark);
+  margin: 28px 0 34px;
+  padding: 8px 18px;
+  border: 1px solid var(--line-double);
+  background: var(--surface);
+  border-radius: var(--radius-pill);
+}
+
+.cover-meta span + span {
+  border-left: 1px solid var(--line-vintage);
+  padding-left: 20px;
+}
+
+.begin-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #ffffff;
+  padding: 14px 28px;
+  background: var(--seal-red);
+  border-radius: var(--radius-dossier);
+  box-shadow: 0 4px 14px rgba(168, 34, 24, 0.35);
+  transition: all var(--transition-fast);
+}
+
+.begin-link:hover {
+  background: var(--seal-red-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(168, 34, 24, 0.45);
+}
+
+.scroll-line {
+  height: 20px;
+  width: 2px;
+  background: #ffffff;
+  position: relative;
+  display: inline-block;
+}
+
+.scroll-line::after {
+  content: '';
+  position: absolute;
+  left: -3px;
+  bottom: 0;
+  width: 6px;
+  height: 6px;
+  border-right: 2px solid #ffffff;
+  border-bottom: 2px solid #ffffff;
+  transform: rotate(45deg);
+}
+
+/* Con dấu kỷ niệm 40 năm dập tròn */
+.cover-side {
+  justify-self: end;
+  align-self: center;
+}
+
+.seal-ring {
+  width: 170px;
+  height: 170px;
+  border: 3px dashed var(--seal-red);
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: var(--surface);
+  box-shadow: 0 10px 30px rgba(168, 34, 24, 0.12), inset 0 0 0 6px var(--bg);
+  transform: rotate(-4deg);
+}
+
+.seal-number {
+  font: 56px/1 var(--serif);
+  font-weight: 700;
+  color: var(--seal-red);
+}
+
+.seal-ring p {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  line-height: 1.35;
+  margin: 4px 0 0;
+  color: var(--ink);
+}
+
+.seal-ring small {
+  font-size: 9px;
+  color: var(--bronze);
+  display: block;
+}
+
+.cover-caption {
+  position: absolute;
+  right: 40px;
+  bottom: 60px;
+  max-width: 440px;
+  font-size: 11px;
+  text-align: right;
+  line-height: 1.6;
+  color: var(--ink-muted);
+}
+
+.cover-footer {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  border-top: 1px solid var(--line-vintage);
+  padding: 16px 0 20px;
+  color: var(--ink-muted);
+}
+
+/* --- 7. INTRO & INTERACTIVE HISTORICAL TIMELINE NAVIGATOR --- */
+.intro {
+  padding-top: 100px;
+  padding-bottom: 80px;
+}
+
+.intro-box {
+  padding: 48px;
+  background: var(--surface);
+  border: 1.5px solid var(--line-double);
+  border-radius: var(--radius-dossier);
+  box-shadow: 0 12px 35px rgba(54, 42, 30, 0.08);
+}
+
+.intro-statement {
+  font-family: var(--serif);
+  font-size: clamp(30px, 3.6vw, 44px);
+  line-height: 1.42;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.intro-statement em {
+  color: var(--seal-red);
+}
+
+.intro-note {
+  font-size: 18px;
+  line-height: 1.95;
+  color: var(--ink-soft);
+  margin-top: 24px;
+}
+
+/* Niên biểu tương tác "Chuyến tàu lịch sử" */
+.decade-ruler {
+  margin-top: 50px;
+  border-top: 2px solid var(--line-strong);
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 16px;
+  padding-top: 24px;
+}
+
+.ruler-item {
+  display: block;
+  text-decoration: none;
+  padding: 12px 14px;
+  background: var(--bg-subtle);
+  border: 1px solid var(--line-vintage);
+  border-radius: var(--radius-dossier);
+  transition: all var(--transition-fast);
+}
+
+.ruler-item:hover {
+  background: var(--surface);
+  border-color: var(--seal-red);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(168, 34, 24, 0.15);
+}
+
+.ruler-year {
+  display: block;
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--seal-red);
+  line-height: 1.1;
+}
+
+.ruler-tag {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--ink-muted);
+  margin-top: 4px;
+}
+
+.ruler-present {
+  padding: 12px 14px;
+  background: var(--seal-red-bg);
+  border: 1.5px solid var(--seal-red);
+  border-radius: var(--radius-dossier);
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--seal-red);
+  line-height: 1.1;
+}
+
+.ruler-tag.highlight {
+  color: var(--seal-red);
+  font-weight: 800;
+}
+
+/* --- 8. CHAPTER COMMON STYLES --- */
+.chapter {
+  padding-top: 100px;
+  padding-bottom: 110px;
+  scroll-margin-top: calc(var(--header-height) + 20px);
+}
+
+.chapter-heading {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+  margin-bottom: 64px;
+  border-top: 2px solid var(--line-double);
+  padding-top: 36px;
+}
+
+.chapter-no {
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--seal-red);
+  padding: 4px 14px;
+  border: 1.5px solid var(--seal-red);
+  background: var(--seal-red-bg);
+  border-radius: var(--radius-tag);
+}
+
+.chapter-heading h2 {
+  font-size: clamp(40px, 4.8vw, 64px);
+  max-width: 900px;
+}
+
+.dossier-tab {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  color: #ffffff;
+  background: var(--ink);
+  padding: 4px 12px;
+  border-radius: var(--radius-tag) var(--radius-tag) 0 0;
+  margin-bottom: 18px;
+}
+
+/* --- 9. CHƯƠNG 1: HIỆN VẬT TEM PHIẾU BAO CẤP --- */
+.archive-layout {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 60px;
+  align-items: start;
+}
+
+.archive-frame {
+  position: relative;
+  padding: 20px;
+  background: var(--surface);
+  border: 2px solid var(--line-double);
+  border-radius: var(--radius-dossier);
+  box-shadow: 0 16px 40px rgba(54, 42, 30, 0.14);
+}
+
+.archive-stamp-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  border-bottom: 1px dashed var(--line-vintage);
+  padding-bottom: 10px;
+}
+
+.archive-stamp {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  color: var(--seal-red);
+}
+
+.archive-ref {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--ink-muted);
+  letter-spacing: 0.1em;
+}
+
+.archive-image-wrapper {
+  position: relative;
+}
+
+.archive-image-wrapper img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line-vintage);
+  filter: contrast(1.04) brightness(0.98);
+}
+
+.ration-figure figcaption {
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--ink-muted);
+  margin-top: 18px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line-vintage);
+}
+
+.prose p {
+  font-size: 18px;
+  line-height: 1.95;
+  color: var(--ink-soft);
+}
+
+.prose .lead {
+  font-family: var(--serif);
+  font-size: 28px;
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 24px;
+}
+
+.citation {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--seal-red);
+  vertical-align: super;
+  padding: 0 2px;
+}
+
+.editorial-note {
+  border-left: 3px solid var(--bronze);
+  background: var(--bronze-bg);
+  padding: 16px 20px;
+  margin-top: 32px;
+  border-radius: 0 var(--radius-dossier) var(--radius-dossier) 0;
+}
+
+.editorial-note > span {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  color: var(--bronze-dark);
+}
+
+.editorial-note p {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--ink-soft);
+  margin: 6px 0 0;
+}
+
+/* --- 10. CHƯƠNG 2: ĐẠI HỘI VI & TRÍCH DẪN VĂN KIỆN --- */
+.chapter-two {
+  background: #f1e8d6;
+  border-top: 2px solid var(--line-double);
+  border-bottom: 2px solid var(--line-double);
+}
+
+.congress-layout {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.quote-block {
+  position: relative;
+  padding: 44px;
+  background: var(--surface);
+  border: 2px solid var(--seal-red-border);
+  border-radius: var(--radius-dossier);
+  box-shadow: 0 16px 45px rgba(168, 34, 24, 0.08);
+}
+
+.quote-seal {
+  position: absolute;
+  top: 18px;
+  right: 24px;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  color: var(--seal-red);
+  border: 1px solid var(--seal-red);
+  padding: 3px 8px;
+  transform: rotate(4deg);
+}
+
+.quote-mark {
+  position: absolute;
+  top: 10px;
+  left: 24px;
+  font: 120px/0.8 var(--serif);
+  color: var(--seal-red);
+  opacity: 0.2;
+}
+
+.quote-block blockquote {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(26px, 3.2vw, 38px);
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  position: relative;
+  z-index: 2;
+}
+
+.quote-block blockquote em {
+  color: var(--seal-red);
+  font-style: italic;
+  font-weight: 700;
+}
+
+.quote-author {
+  margin-top: 28px;
+  border-top: 1px solid var(--line-vintage);
+  padding-top: 14px;
+}
+
+.quote-author p {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--ink-muted);
+  margin: 0;
+}
+
+.timeline-title-row {
+  margin: 64px 0 24px;
+}
+
+.policy-timeline {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.timeline-card {
+  position: relative;
+  background: var(--surface);
+  border: 1.5px solid var(--line-double);
+  border-radius: var(--radius-dossier);
+  padding: 24px 20px;
+  box-shadow: 0 8px 24px rgba(54, 42, 30, 0.08);
+  transition: all var(--transition-fast);
+}
+
+.timeline-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--seal-red);
+  box-shadow: 0 14px 30px rgba(168, 34, 24, 0.14);
+}
+
+.timeline-order {
+  display: block;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  color: var(--bronze-dark);
+}
+
+.timeline-date {
+  display: block;
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--seal-red);
+  margin: 4px 0 8px;
+}
+
+.timeline-card strong {
+  display: block;
+  font-size: 17px;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.timeline-card p {
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--ink-soft);
+  margin-bottom: 12px;
+}
+
+.timeline-source {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--bronze-dark);
+  text-decoration: underline;
+}
+
+/* --- 11. SCROLLYTELLING & CHARTS (NIÊN GIÁM THỐNG KÊ LỊCH SỬ) --- */
+.scrolly {
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr;
+  gap: 64px;
+  align-items: start;
+}
+
+.story-step {
+  min-height: 75vh;
+  padding-top: 60px;
+  padding-bottom: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  opacity: 0.45;
+  border-left: 3px solid transparent;
+  padding-left: 28px;
+  margin-left: -28px;
+  transition: all var(--transition-normal);
+}
+
+.story-step.is-active {
+  opacity: 1;
+  border-left-color: var(--seal-red);
+  transform: translateX(4px);
+}
+
+.story-step:last-child {
+  min-height: 60vh;
+}
+
+.story-step h3 {
+  font-family: var(--serif);
+  font-size: 32px;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+}
+
+.step-date {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  color: var(--bronze-dark);
+  margin-bottom: 12px;
+}
+
+/* Khung Niên giám thống kê (Statistical Panel) */
+.chart-panel {
+  position: sticky;
+  top: calc(var(--header-height) + 24px);
+  padding: 32px 28px 24px;
+  background: var(--surface);
+  border: 2px solid var(--line-double);
+  border-radius: var(--radius-dossier);
+  margin-top: 40px;
+  box-shadow: 0 16px 45px rgba(54, 42, 30, 0.12);
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  border-bottom: 1.5px solid var(--line-vintage);
+  padding-bottom: 16px;
+}
+
+.chart-header h3 {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.chart-year-badge {
+  text-align: right;
+}
+
+.badge-label {
+  display: block;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: var(--ink-muted);
+}
+
+.chart-year {
+  font-family: var(--serif);
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--seal-red);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.chart-unit {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-muted);
+  margin: 12px 0 14px;
+}
+
+/* Thẻ bối cảnh lịch sử động (Dynamic Historical Context) */
+.chart-historical-context {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: var(--bronze-bg);
+  border: 1px solid var(--bronze-border);
+  border-radius: var(--radius-dossier);
+  margin-bottom: 16px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--ink);
+  transition: all var(--transition-fast);
+}
+
+.context-icon {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+/* Chú giải đường biểu đồ */
+.chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  margin-bottom: 14px;
+}
+
+.chart-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.chart-legend span::before {
+  content: '';
+  display: inline-block;
+  width: 16px;
+  height: 3px;
+}
+
+.agri::before { background: var(--bronze); }
+.industry::before { background: var(--seal-red); }
+.services::before { background: var(--green-press); }
+
+/* SVG Canvas */
+.chart-mount {
+  margin: 0 -4px;
+}
+
+.chart-mount svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.chart-grid {
+  stroke: var(--line-vintage);
+  stroke-width: 1;
+  stroke-dasharray: 2 3;
+}
+
+.axis-text {
+  font-size: 11px;
+  fill: var(--ink-muted);
+  font-family: var(--sans);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.chart-path-bg {
+  fill: none;
+  stroke-width: 2;
+  opacity: 0.18;
+}
+
+.chart-path {
+  fill: none;
+  stroke-width: 2.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.chart-cursor {
+  stroke: var(--seal-red);
+  stroke-width: 1.5;
+  stroke-dasharray: 3 3;
+  opacity: 0.7;
+}
+
+.chart-marker {
+  stroke: var(--surface);
+  stroke-width: 2;
+}
+
+.chart-event-line {
+  stroke: var(--bronze);
+  stroke-width: 1;
+  stroke-dasharray: 2 2;
+  opacity: 0.5;
+}
+
+.chart-event-label {
+  font-size: 10px;
+  font-weight: 700;
+  fill: var(--bronze-dark);
+  font-family: var(--sans);
+}
+
+/* Ô hiển thị số liệu tức thời (Readout Metric Cards) */
+.chart-readout {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--line-vintage);
+  padding-top: 16px;
+  margin-top: 10px;
+}
+
+.chart-readout span {
+  flex: 1;
+  min-width: 95px;
+  background: var(--bg-subtle);
+  padding: 8px 12px;
+  border: 1px solid var(--line-vintage);
+  border-radius: var(--radius-dossier);
+}
+
+.chart-readout small {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--ink-muted);
+  display: block;
+  margin-bottom: 2px;
+}
+
+.chart-readout strong {
+  display: block;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+}
+
+/* Khối nút chọn năm quan sát */
+.chart-controls-box {
+  margin-top: 20px;
+  border-top: 1px solid var(--line-vintage);
+  padding-top: 14px;
+}
+
+.controls-label {
+  display: block;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: var(--ink-muted);
+  margin-bottom: 8px;
+}
+
+.chart-controls {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.chart-controls button {
+  background: var(--bg-subtle);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-tag);
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 14px;
+  line-height: 1.4;
+  font-variant-numeric: tabular-nums;
+  transition: all var(--transition-fast);
+}
+
+.chart-controls button:hover {
+  background: var(--surface);
+  border-color: var(--seal-red);
+  color: var(--seal-red);
+}
+
+.chart-controls button[aria-pressed="true"] {
+  background: var(--seal-red);
+  border-color: var(--seal-red);
+  color: #ffffff;
+  box-shadow: 0 3px 10px rgba(168, 34, 24, 0.3);
+}
+
+.data-source {
+  font-size: 11px;
+  color: var(--ink-muted);
+  margin-top: 18px;
+}
+
+.data-source a {
+  text-decoration: underline;
+}
+
+.chart-metadata {
+  display: block;
+  margin-top: 4px;
+  color: var(--ink-faint);
+}
+
+/* Bảng thống kê chi tiết kéo trượt */
+.data-details {
+  margin-top: 14px;
+  border-top: 1px solid var(--line-vintage);
+  padding-top: 12px;
+}
+
+.data-details summary {
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--seal-red);
+  user-select: none;
+}
+
+.table-scroll {
+  overflow: auto;
+  max-height: 240px;
+  margin-top: 12px;
+  border: 1.5px solid var(--line-double);
+  background: var(--surface);
+}
+
+.table-scroll table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.table-scroll th,
+.table-scroll td {
+  text-align: right;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--line-vintage);
+}
+
+.table-scroll th:first-child,
+.table-scroll td:first-child {
+  text-align: left;
+}
+
+.table-scroll th {
+  position: sticky;
+  top: 0;
+  background: var(--bg-subtle);
+  color: var(--ink);
+  font-weight: 700;
+  box-shadow: 0 1px 0 var(--line-double);
+}
+
+.table-scroll tr:hover td {
+  background: var(--seal-red-bg);
+}
+
+/* --- 12. CHƯƠNG 4: SO SÁNH ẢNH CẢNG SÀI GÒN 1999 --- */
+.chapter-four {
+  background: #f2e9d7;
+  border-top: 2px solid var(--line-double);
+  border-bottom: 2px solid var(--line-double);
+}
+
+.photo-story {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 60px;
+  margin-bottom: 100px;
+  align-items: center;
+}
+
+.compare-presets-panel {
+  margin-top: 28px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line-vintage);
+}
+
+.presets-title {
+  display: block;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: var(--ink-muted);
+  margin-bottom: 8px;
+}
+
+.compare-presets {
+  display: flex;
+  gap: 8px;
+}
+
+.preset-btn {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-tag);
+  background: var(--surface);
+  color: var(--ink);
+  transition: all var(--transition-fast);
+}
+
+.preset-btn:hover {
+  border-color: var(--seal-red);
+  color: var(--seal-red);
+}
+
+.preset-btn.active {
+  background: var(--seal-red);
+  border-color: var(--seal-red);
+  color: #ffffff;
+}
+
+/* Khung ảnh thấu kính đối chiếu (Archival Lightbox) */
+.image-comparison {
+  position: relative;
+  aspect-ratio: 2340 / 1599;
+  background: #1e1915;
+  overflow: hidden;
+  width: 100%;
+  border: 3px solid var(--line-double);
+  border-radius: var(--radius-dossier);
+  box-shadow: 0 18px 45px rgba(54, 42, 30, 0.2);
+  user-select: none;
+  cursor: ew-resize;
+  touch-action: pan-y;
+}
+
+.image-comparison img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.compare-original {
+  position: absolute;
+  inset: 0;
+  filter: sepia(0.25);
+}
+
+.compare-restored-wrap {
+  position: absolute;
+  inset: 0;
+  clip-path: inset(0 calc(100% - var(--split)) 0 0);
+  transition: clip-path 40ms linear;
+}
+
+.compare-divider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--split);
+  width: 2px;
+  background: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+  pointer-events: none;
+  transform: translateX(-50%);
+  transition: left 40ms linear;
+}
+
+.compare-divider span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  background: var(--seal-red);
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+}
+
+.compare-tag {
+  position: absolute;
+  top: 16px;
+  padding: 4px 12px;
+  background: rgba(29, 24, 21, 0.85);
+  color: #ffffff;
+  border-radius: var(--radius-tag);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  pointer-events: none;
+}
+
+.original-tag { right: 16px; }
+.restored-tag { left: 16px; background: var(--seal-red); }
+
+.compare-control {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  padding: 14px 0;
+}
+
+.compare-control input {
+  flex: 1;
+  min-width: 0;
+  accent-color: var(--seal-red);
+  cursor: ew-resize;
+  height: 6px;
+}
+
+.compare-control output {
+  width: 44px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+  color: var(--seal-red);
+}
+
+/* --- 13. CHƯƠNG 5: TỔNG KẾT BỐN THẬP NIÊN --- */
+.closing {
+  border-top: 2px solid var(--line-double);
+  padding-top: 64px;
+  margin-top: 64px;
+}
+
+.closing-statement {
+  font-family: var(--serif);
+  font-size: clamp(28px, 3.4vw, 42px);
+  line-height: 1.45;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.closing-statement em {
+  color: var(--seal-red);
+}
+
+.closing-facts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin-top: 48px;
+}
+
+.fact-card {
+  padding: 32px 28px;
+  background: var(--surface);
+  border: 1.5px solid var(--line-double);
+  border-radius: var(--radius-dossier);
+  box-shadow: 0 10px 30px rgba(54, 42, 30, 0.08);
+}
+
+.fact-period {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  color: var(--seal-red);
+}
+
+.fact-card strong {
+  display: block;
+  font: clamp(34px, 3.8vw, 50px)/1.3 var(--serif);
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  margin-top: 8px;
+}
+
+.fact-separator {
+  color: var(--seal-red);
+  margin-inline: 6px;
+}
+
+.fact-card p {
+  font-size: 13px;
+  color: var(--ink-muted);
+  margin: 8px 0 0;
+}
+
+/* --- 14. DANH MỤC NGUỒN & PHƯƠNG PHÁP --- */
+.sources {
+  padding: 90px 0 70px;
+  background: var(--bg-subtle);
+  border-top: 3px double var(--line-double);
+  scroll-margin-top: calc(var(--header-height) + 20px);
+}
+
+.sources-heading h2 {
+  font-size: 44px;
+  letter-spacing: -0.03em;
+}
+
+.sources-heading > p:last-child {
+  font-size: 15px;
+  color: var(--ink-muted);
+  margin-top: 10px;
+}
+
+.sources-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  margin-top: 50px;
+}
+
+.sources h3 {
+  font-size: 19px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: var(--ink);
+  border-bottom: 1px solid var(--line-vintage);
+  padding-bottom: 8px;
+}
+
+.source-list {
+  padding-left: 20px;
+  margin: 0;
+  color: var(--seal-red);
+}
+
+.source-list li {
+  margin-bottom: 22px;
+  padding-left: 6px;
+  scroll-margin-top: calc(var(--header-height) + 30px);
+}
+
+.source-list li > a {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  text-decoration: underline;
+}
+
+.source-list li > a:hover {
+  color: var(--seal-red);
+}
+
+.source-list p {
+  font-size: 13px;
+  line-height: 1.8;
+  margin: 6px 0 0;
+  color: var(--ink-soft);
+}
+
+.indicator-list {
+  padding-left: 20px;
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+
+.indicator-list li {
+  margin-bottom: 8px;
+}
+
+.indicator-list a {
+  font-weight: 700;
+  color: var(--seal-red);
+}
+
+.retrieval-note {
+  border-top: 1px solid var(--line-vintage);
+  padding-top: 18px;
+  margin-top: 20px;
+  font-size: 13px;
+  color: var(--ink-muted);
+}
+
+.methodology-note {
+  border-left: 3px solid var(--seal-red);
+  padding-left: 16px;
+  margin-top: 20px;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+.photo-credits {
+  border-top: 1px solid var(--line-vintage);
+  margin-top: 40px;
+  padding-top: 24px;
+}
+
+.photo-credits h3 {
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+
+.photo-credits p {
+  font-size: 13px;
+  color: var(--ink-muted);
+  line-height: 1.8;
+}
+
+/* --- 15. FOOTER & NOSCRIPT --- */
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 36px 0;
+  border-top: 1px solid var(--line-vintage);
+  font-size: 12px;
+  color: var(--ink-muted);
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--ink);
+}
+
+.footer-seal {
+  background: var(--seal-red);
+  color: #ffffff;
+  padding: 2px 8px;
+  border-radius: var(--radius-tag);
+  font-size: 10px;
+}
+
+.footer p {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  margin: 0;
+}
+
+.back-to-top {
+  font-weight: 700;
+  color: var(--seal-red);
+}
+
+.noscript-note {
+  padding: 20px;
+  text-align: center;
+  background: var(--bronze-bg);
+  border-top: 1px solid var(--line-vintage);
+  color: var(--ink);
+  font-size: 14px;
+}
+
+/* --- 16. RESPONSIVE BREAKPOINTS --- */
+@media (max-width: 1100px) {
+  .container { width: calc(100% - 50px); }
+  .decade-ruler { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .archive-layout, .congress-layout, .photo-story { gap: 40px; }
+  .scrolly { gap: 40px; grid-template-columns: 0.9fr 1.1fr; }
+  .cover-year { font-size: 160px; }
+  .cover h1 { font-size: 70px; }
+}
+
+@media (max-width: 860px) {
+  :root { --header-height: 64px; }
+  .masthead { padding: 0 20px; }
+  .masthead-center { display: none; }
+  .container { width: calc(100% - 36px); }
+  
+  .cover-grid { grid-template-columns: 1fr; padding-top: 60px; padding-bottom: 100px; min-height: auto; }
+  .cover-side { display: none; }
+  .cover-caption { right: 20px; font-size: 10px; }
+  
+  .intro-box { padding: 32px 24px; }
+  .decade-ruler { grid-template-columns: repeat(2, 1fr); }
+
+  .archive-layout, .congress-layout, .photo-story { grid-template-columns: 1fr; gap: 36px; }
+  .policy-timeline { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  
+  .scrolly { display: flex; flex-direction: column; gap: 0; }
+  .chart-panel {
+    order: -1;
+    width: 100%;
+    top: calc(var(--header-height) + 10px);
+    z-index: 10;
+    margin-top: 0;
+    padding: 22px 18px 18px;
+    max-width: 680px;
+  }
+  
+  .story-step { min-height: 70vh; padding: 60px 0 50px; opacity: 0.7; border-left: none; padding-left: 0; margin-left: 0; }
+  .story-step.is-active { opacity: 1; transform: none; }
+
+  .sources-grid { grid-template-columns: 1fr; gap: 36px; }
+  .footer p { display: none; }
+}
+
+@media (max-width: 540px) {
+  .container { width: calc(100% - 28px); }
+  .masthead { padding: 0 16px; }
+  .brand-mark { font-size: 26px; padding-right: 10px; }
+  .contents { right: 14px; padding: 22px; max-height: calc(100svh - 80px); overflow-y: auto; }
+
+  .cover-year { font-size: clamp(95px, 26vw, 130px); }
+  .cover h1 { font-size: clamp(40px, 11vw, 56px); }
+  .cover-deck { font-size: 16px; }
+  .cover-meta { font-size: 10px; gap: 12px; padding: 6px 12px; }
+  .cover-meta span + span { padding-left: 12px; }
+
+  .decade-ruler { grid-template-columns: 1fr; }
+
+  .quote-block { padding: 24px 20px; }
+  .quote-block blockquote { font-size: 24px; }
+  .policy-timeline { grid-template-columns: 1fr; }
+
+  .chart-panel { padding: 18px 14px 14px; }
+  .chart-header h3 { font-size: 18px; }
+  .chart-year { font-size: 28px; }
+
+  .compare-presets { flex-direction: column; }
+  .compare-divider span { width: 34px; height: 34px; font-size: 14px; }
+  .closing-facts { grid-template-columns: 1fr; gap: 18px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media print {
+  :root { color-scheme: light; }
+  body { background: #fff; color: #000; font-size: 12pt; }
+  body::before, .masthead, .contents-toggle, .begin-link, .contents, .chart-controls-box, .reading-progress, .compare-control, .compare-presets-panel {
+    display: none !important;
+  }
+  .container { width: 100%; }
+  .cover { min-height: 0; padding: 20px 0; }
+  .cover-year { font-size: 50pt; color: #000; }
+  .cover h1 { font-size: 30pt; }
+  .cover-side, .cover-caption, .cover-footer { display: none; }
+  .intro, .chapter, .sources { padding: 20px 0; background: #fff; }
+  .scrolly, .archive-layout, .congress-layout, .photo-story, .sources-grid { display: block; }
+  .story-step { min-height: 0; padding: 10px 0; opacity: 1; }
+  .chart-panel { position: static; background: #fff; color: #000; box-shadow: none; break-inside: avoid; }
+  .footer { display: none; }
+}

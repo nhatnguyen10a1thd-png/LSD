@@ -1,0 +1,170 @@
+{
+  "checks": [
+    "All five published indicator series exactly match raw World Bank observations",
+    "Application and data JavaScript parse successfully",
+    "Local images, scripts, styles and all internal anchors resolve",
+    "Bundled Vietnamese editorial font loads",
+    "All three SVG charts render",
+    "All five indicator paths render",
+    "Three complete 40-year tables render",
+    "Table of contents opens",
+    "Escape closes table of contents",
+    "Escape restores keyboard focus",
+    "Choosing a chapter closes contents",
+    "sectors: first-year control works",
+    "sectors: selected year is accessible",
+    "sectors: last-year control works",
+    "sectors: source table opens",
+    "gdp: first-year control works",
+    "gdp: selected year is accessible",
+    "gdp: last-year control works",
+    "gdp: source table opens",
+    "urban: first-year control works",
+    "urban: selected year is accessible",
+    "urban: last-year control works",
+    "urban: source table opens",
+    "Scroll synchronizes chart years forward and backward",
+    "Comparison keyboard reaches original image",
+    "Comparison keyboard reaches restored image",
+    "Comparison updates image clipping",
+    "Every image loads, including the AI-restored derivative",
+    "No horizontal overflow at 390px",
+    "No horizontal overflow in chapter-1 at 390px",
+    "No horizontal overflow in chapter-3 at 390px",
+    "No horizontal overflow in chapter-4 at 390px",
+    "No horizontal overflow in chapter-5 at 390px",
+    "No horizontal overflow in sources at 390px",
+    "Mobile uses a single-column narrative layout",
+    "No horizontal overflow at 320px",
+    "No horizontal overflow in chapter-1 at 320px",
+    "No horizontal overflow in chapter-3 at 320px",
+    "No horizontal overflow in chapter-4 at 320px",
+    "No horizontal overflow in chapter-5 at 320px",
+    "No horizontal overflow in sources at 320px",
+    "No horizontal overflow at 768px",
+    "No horizontal overflow in chapter-1 at 768px",
+    "No horizontal overflow in chapter-3 at 768px",
+    "No horizontal overflow in chapter-4 at 768px",
+    "No horizontal overflow in chapter-5 at 768px",
+    "No horizontal overflow in sources at 768px",
+    "No horizontal overflow at 1440px",
+    "No horizontal overflow in chapter-1 at 1440px",
+    "No horizontal overflow in chapter-3 at 1440px",
+    "No horizontal overflow in chapter-4 at 1440px",
+    "No horizontal overflow in chapter-5 at 1440px",
+    "No horizontal overflow in sources at 1440px",
+    "Reduced motion disables smooth scrolling",
+    "Chart controls remain functional with reduced motion",
+    "All charts also load when opening index.html directly",
+    "No JavaScript errors or failed local HTTP requests"
+  ],
+  "screenshots": [
+    "qa/desktop-cover.png",
+    "qa/desktop-chart.png",
+    "qa/mobile-cover.png",
+    "qa/mobile-chart.png"
+  ],
+  "data": [
+    {
+      "code": "NY.GDP.PCAP.KD",
+      "count": 40,
+      "first": {
+        "value": 607.58999788783,
+        "year": 1986
+      },
+      "middle": {
+        "value": 1699.67620343393,
+        "year": 2006
+      },
+      "last": {
+        "value": 4308.20507512834,
+        "year": 2025
+      }
+    },
+    {
+      "code": "NV.AGR.TOTL.ZS",
+      "count": 40,
+      "first": {
+        "value": 38.0634390651085,
+        "year": 1986
+      },
+      "middle": {
+        "value": 18.7267854535521,
+        "year": 2006
+      },
+      "last": {
+        "value": 11.6440301326976,
+        "year": 2025
+      }
+    },
+    {
+      "code": "NV.IND.TOTL.ZS",
+      "count": 40,
+      "first": {
+        "value": 28.881469115192,
+        "year": 1986
+      },
+      "middle": {
+        "value": 38.5847310338981,
+        "year": 2006
+      },
+      "last": {
+        "value": 37.6491235864782,
+        "year": 2025
+      }
+    },
+    {
+      "code": "NV.SRV.TOTL.ZS",
+      "count": 40,
+      "first": {
+        "value": 33.0550918196995,
+        "year": 1986
+      },
+      "middle": {
+        "value": 42.6884835125499,
+        "year": 2006
+      },
+      "last": {
+        "value": 42.7438415027506,
+        "year": 2025
+      }
+    },
+    {
+      "code": "SP.URB.TOTL.IN.ZS",
+      "count": 40,
+      "first": {
+        "value": 19.0574542334283,
+        "year": 1986
+      },
+      "middle": {
+        "value": 28.0458290558422,
+        "year": 2006
+      },
+      "last": {
+        "value": 38.8299160351294,
+        "year": 2025
+      }
+    }
+  ],
+  "verifiedAt": "2026-10-07T05:28:27.755Z",
+  "layout": [
+    {
+      "viewport": 390,
+      "document": 390
+    },
+    {
+      "viewport": 320,
+      "document": 320
+    },
+    {
+      "viewport": 768,
+      "document": 768
+    },
+    {
+      "viewport": 1440,
+      "document": 1440
+    }
+  ],
+  "errors": [],
+  "status": "passed"
+}
